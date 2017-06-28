@@ -6,26 +6,11 @@ I am master
 """
 
 import random
-# import time
-import queue
-from multiprocessing.managers import BaseManager
+from ProcessThread.Distributing.task_queue_manager import *
 
-task_queue = queue.Queue()
-result_queue = queue.Queue()
-
-
-class QueueManager(BaseManager):
-    pass
-
-
-QueueManager.register('get_task_queue', callable=lambda: task_queue)
-QueueManager.register('get_result_queue', callable=lambda: result_queue)
-
-manager = QueueManager(address=('', 5000), authkey=b'abc')
+manager = QueueManager.default_manager()
 manager.start()
 
-# task = manager.__getattribute__(GET_TASK_QUEUE)
-# result = manager.__getattribute__(GET_RESULT_QUEUE)
 task = manager.get_task_queue()
 result = manager.get_result_queue()
 
